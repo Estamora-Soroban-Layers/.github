@@ -6,6 +6,7 @@
 [![Documentation](https://img.shields.io/badge/docs-estamora--docs.vercel.app-blue)](https://estamora-docs.vercel.app)
 [![Application](https://img.shields.io/badge/app-estamora--app.vercel.app-black?logo=vercel)](https://estamora-app.vercel.app)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+[![Contributors](https://img.shields.io/github/contributors/Estamora-Soroban-Layers/.github)](https://github.com/Estamora-Soroban-Layers/.github/graphs/contributors)
 
 Organization-level community health files for
 [Estamora Soroban Layers](https://github.com/Estamora-Soroban-Layers).

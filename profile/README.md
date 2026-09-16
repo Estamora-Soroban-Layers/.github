@@ -12,7 +12,8 @@ still lose user funds. Estamora measures what a contract *does*, not what it *lo
 [![Docs](https://github.com/Estamora-Soroban-Layers/estamora-docs/actions/workflows/ci.yml/badge.svg)](https://github.com/Estamora-Soroban-Layers/estamora-docs/actions/workflows/ci.yml)
 [![Documentation site](https://img.shields.io/badge/site-estamora--docs.vercel.app-blue)](https://estamora-docs.vercel.app)
 [![Application](https://img.shields.io/badge/app-estamora--app.vercel.app-black?logo=vercel)](https://estamora-app.vercel.app)
-[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/Estamora-Soroban-Layers/estamora-conformance-spec/blob/main/LICENSE)
+[![Product pitch](https://img.shields.io/badge/watch-5--minute%20pitch-blueviolet)](https://estamora-docs.vercel.app/assets/estamora-pitch.mp4)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/Estamora-Soroban-Layers/.github/blob/main/LICENSE)
 
 </div>
 
@@ -49,13 +50,13 @@ reason. That gap is what Estamora exists to make checkable.
 
 ## Repositories
 
-| Repository | Language | What it is |
-| --- | --- | --- |
-| [`estamora-conformance-spec`](https://github.com/Estamora-Soroban-Layers/estamora-conformance-spec) | TypeScript | **Defines** conformance. Ten normative JSON Schemas, released profile bundles, the shared test-vector library, and the validation tooling that keeps them self-consistent. |
-| [`estamora-conformance-runner`](https://github.com/Estamora-Soroban-Layers/estamora-conformance-runner) | Rust | **Measures** conformance. Executes profiles and vectors against a deployed Soroban contract and produces a deterministic verdict with JSON, Markdown and JUnit reports. |
-| [`estamora-docs`](https://github.com/Estamora-Soroban-Layers/estamora-docs) | Markdown | **Explains** conformance. The documentation site: curated guides and reference pages, assembled by MkDocs together with the canonical document sets at pinned revisions. |
-| [`estamora-app`](https://github.com/Estamora-Soroban-Layers/estamora-app) | TypeScript | **Shows** conformance. The web application: inspect conformance evidence for live testnet contracts, with the documentation built in. |
-| [`.github`](https://github.com/Estamora-Soroban-Layers/.github) | — | Community health files and this organization profile. |
+| Repository | Language | What it is | Contributors |
+| --- | --- | --- | --- |
+| [`estamora-conformance-spec`](https://github.com/Estamora-Soroban-Layers/estamora-conformance-spec) | TypeScript | **Defines** conformance. Ten normative JSON Schemas, released profile bundles, the shared test-vector library, and the validation tooling that keeps them self-consistent. | [![contributors](https://img.shields.io/github/contributors/Estamora-Soroban-Layers/estamora-conformance-spec)](https://github.com/Estamora-Soroban-Layers/estamora-conformance-spec/graphs/contributors) |
+| [`estamora-conformance-runner`](https://github.com/Estamora-Soroban-Layers/estamora-conformance-runner) | Rust | **Measures** conformance. Executes profiles and vectors against a deployed Soroban contract and produces a deterministic verdict with JSON, Markdown and JUnit reports. | [![contributors](https://img.shields.io/github/contributors/Estamora-Soroban-Layers/estamora-conformance-runner)](https://github.com/Estamora-Soroban-Layers/estamora-conformance-runner/graphs/contributors) |
+| [`estamora-docs`](https://github.com/Estamora-Soroban-Layers/estamora-docs) | Markdown | **Explains** conformance. The documentation site: curated guides and reference pages, assembled by MkDocs together with the canonical document sets at pinned revisions. | [![contributors](https://img.shields.io/github/contributors/Estamora-Soroban-Layers/estamora-docs)](https://github.com/Estamora-Soroban-Layers/estamora-docs/graphs/contributors) |
+| [`estamora-app`](https://github.com/Estamora-Soroban-Layers/estamora-app) | TypeScript | **Shows** conformance. The web application: inspect conformance evidence for live testnet contracts, with the documentation built in. | [![contributors](https://img.shields.io/github/contributors/Estamora-Soroban-Layers/estamora-app)](https://github.com/Estamora-Soroban-Layers/estamora-app/graphs/contributors) |
+| [`.github`](https://github.com/Estamora-Soroban-Layers/.github) | — | Community health files and this organization profile. | [![contributors](https://img.shields.io/github/contributors/Estamora-Soroban-Layers/.github)](https://github.com/Estamora-Soroban-Layers/.github/graphs/contributors) |
 
 ## How the layers fit together
 
