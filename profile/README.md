@@ -101,7 +101,7 @@ cargo build --release --bin estamora
 # normative document a pipeline consumes, and the exit code is the gate.
 ./target/release/estamora run \
     --profile sep-41@1.0 \
-    --contract CDB3EKMUGN5E7X2LMO56IB3A55EU4PPUYEF5EBVDKDV3LCLICJNSYKLW \
+    --contract CDMCJRW5QBTOOOGYDPCJV6N4RKLX44V6XWKNN6ZFAKN6J2F5HQPSNAOV \
     --network testnet \
     --format markdown
 ```
@@ -133,7 +133,7 @@ teaches its users to distrust every `1` it produces.
 | Application (reads evidence for a live contract) | <https://estamora-app.vercel.app> |
 | Worked conformance measurement against a real deployment | [`examples/testnet-contract/`](https://github.com/Estamora-Soroban-Layers/estamora-conformance-runner/tree/main/examples/testnet-contract) |
 | Measured cost of each call on that deployment | [`costs.json`](https://github.com/Estamora-Soroban-Layers/estamora-conformance-runner/blob/main/examples/testnet-contract/costs.json) |
-| Soroban testnet contract ID | [`CDB3EKMUGN5E7X2LMO56IB3A55EU4PPUYEF5EBVDKDV3LCLICJNSYKLW`](https://stellar.expert/explorer/testnet/contract/CDB3EKMUGN5E7X2LMO56IB3A55EU4PPUYEF5EBVDKDV3LCLICJNSYKLW) |
+| Soroban testnet contract ID | [`CDMCJRW5QBTOOOGYDPCJV6N4RKLX44V6XWKNN6ZFAKN6J2F5HQPSNAOV`](https://stellar.expert/explorer/testnet/contract/CDMCJRW5QBTOOOGYDPCJV6N4RKLX44V6XWKNN6ZFAKN6J2F5HQPSNAOV) |
 
 ## Contributing
 
