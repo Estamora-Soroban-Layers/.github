@@ -16,6 +16,18 @@ still lose user funds. Estamora measures what a contract *does*, not what it *lo
 
 ---
 
+## Watch the pitch
+
+<a href="https://github.com/Estamora-Soroban-Layers/estamora-docs/releases/download/pitch-v1/estamora-pitch.mp4">
+  <img src="https://raw.githubusercontent.com/Estamora-Soroban-Layers/estamora-docs/main/docs/assets/pitch-thumbnail.png" alt="Watch the five-minute Estamora product pitch" width="700">
+</a>
+
+**[Five minutes, no sign-in.](https://github.com/Estamora-Soroban-Layers/estamora-docs/releases/download/pitch-v1/estamora-pitch.mp4)**
+Every frame of it is a live deployment or output a program actually produced: the real
+free-mint bug this project found in its own contract fixture, a real run of the release
+binary, and the deployed application auditing a real conformance report. The pipeline that
+builds the video is committed, so the figures in it can be corrected rather than argued with.
+
 ## The question Estamora answers
 
 > Does this Soroban contract actually behave according to the standard or interface
