@@ -18,11 +18,11 @@ still lose user funds. Estamora measures what a contract *does*, not what it *lo
 
 ## Watch the pitch
 
-<a href="https://github.com/Estamora-Soroban-Layers/estamora-docs/releases/download/pitch-v1/estamora-pitch.mp4">
+<a href="https://estamora-docs.vercel.app/assets/estamora-pitch.mp4">
   <img src="https://raw.githubusercontent.com/Estamora-Soroban-Layers/estamora-docs/main/docs/assets/pitch-thumbnail.png" alt="Watch the five-minute Estamora product pitch" width="700">
 </a>
 
-**[Five minutes, no sign-in.](https://github.com/Estamora-Soroban-Layers/estamora-docs/releases/download/pitch-v1/estamora-pitch.mp4)**
+**[Five minutes, no sign-in.](https://estamora-docs.vercel.app/assets/estamora-pitch.mp4)**
 Every frame of it is a live deployment or output a program actually produced: the real
 free-mint bug this project found in its own contract fixture, a real run of the release
 binary, and the deployed application auditing a real conformance report. The pipeline that
@@ -51,7 +51,7 @@ reason. That gap is what Estamora exists to make checkable.
 | --- | --- | --- |
 | [`estamora-conformance-spec`](https://github.com/Estamora-Soroban-Layers/estamora-conformance-spec) | TypeScript | **Defines** conformance. Ten normative JSON Schemas, released profile bundles, the shared test-vector library, and the validation tooling that keeps them self-consistent. |
 | [`estamora-conformance-runner`](https://github.com/Estamora-Soroban-Layers/estamora-conformance-runner) | Rust | **Measures** conformance. Executes profiles and vectors against a deployed Soroban contract and produces a deterministic verdict with JSON, Markdown and JUnit reports. |
-| [`estamora-docs`](https://github.com/Estamora-Soroban-Layers/estamora-docs) | TypeScript | **Explains** conformance. The documentation site: guides, the behavioural model, profile authoring, and the generated reference set. |
+| [`estamora-docs`](https://github.com/Estamora-Soroban-Layers/estamora-docs) | Markdown | **Explains** conformance. The documentation site: curated guides and reference pages, assembled by MkDocs together with the canonical document sets at pinned revisions. |
 | [`estamora-app`](https://github.com/Estamora-Soroban-Layers/estamora-app) | TypeScript | **Shows** conformance. The web application: inspect conformance evidence for live testnet contracts, with the documentation built in. |
 | [`.github`](https://github.com/Estamora-Soroban-Layers/.github) | — | Community health files and this organization profile. |
 
@@ -86,35 +86,51 @@ The runner is distributed as source and as release binaries; no crate is publish
 crates.io yet.
 
 ```bash
+# `--spec` defaults to the sibling directory, which is why these are cloned beside each
+# other: the runner reads its profiles and vectors from the specification checkout.
 git clone https://github.com/Estamora-Soroban-Layers/estamora-conformance-spec
 git clone https://github.com/Estamora-Soroban-Layers/estamora-conformance-runner
 cd estamora-conformance-runner
 
-# Build the runner, then measure a deployed contract against a released profile
 cargo build --release --bin estamora
 
-ESTAMORA_SPEC_REPO=../estamora-conformance-spec \
-  ./target/release/estamora validate \
-    --contract CB... \
+# Measure the contract this project deploys to testnet, against a released profile. The
+# markdown rendering goes to standard output; `--out report.json --format json` writes the
+# normative document a pipeline consumes, and the exit code is the gate.
+./target/release/estamora run \
     --profile sep-41@1.0 \
+    --contract CDB3EKMUGN5E7X2LMO56IB3A55EU4PPUYEF5EBVDKDV3LCLICJNSYKLW \
     --network testnet \
     --format markdown
 ```
 
-Exit codes are a tested contract, not a convention:
+Exit codes are a tested contract rather than a convention, and the mapping from a status to a
+number is derived in `estamora-core` and asserted by a unit test. What a CI system needs from a
+code is not only what happened but whose fault it is:
 
-| Exit code | Meaning |
-| --- | --- |
-| `0` | The contract conforms |
-| `1` | The contract does not conform |
-| `2` | The verdict is inconclusive, or the tooling failed — **never** "the contract is non-conformant" |
+| Exit code | Status | Whose fault | What a pipeline should do |
+| --- | --- | --- | --- |
+| `0` | `CONFORMANT` | — | Publish or merge |
+| `1` | `NON_CONFORMANT`, `PARTIALLY_CONFORMANT` | The contract | Fail the gate |
+| `2` | `INCONCLUSIVE` | The run: a vector could not be decided | Fail the gate, and re-run |
+| `3` | `PROFILE_ERROR` | The specification | Fail the build |
+| `4` | `EXECUTION_ERROR` | The environment | Fail or retry |
+| `5` | — | This tool | Report a bug |
+| `64` | — | The command line (`sysexits.h`) | Fix the invocation |
+
+**Only a violated requirement exits `1`.** A network outage, an unbuilt fixture and a malformed
+profile all exit something else, because a runner that reports an outage as a contract failure
+teaches its users to distrust every `1` it produces.
 
 ## Live on testnet
 
 | Artifact | Location |
 | --- | --- |
 | Reference set (schemas, profiles, vectors) | <https://estamora-soroban-layers.github.io/estamora-conformance-spec/> |
+| Documentation | <https://estamora-docs.vercel.app> |
+| Application (reads evidence for a live contract) | <https://estamora-app.vercel.app> |
 | Worked conformance measurement against a real deployment | [`examples/testnet-contract/`](https://github.com/Estamora-Soroban-Layers/estamora-conformance-runner/tree/main/examples/testnet-contract) |
+| Measured cost of each call on that deployment | [`costs.json`](https://github.com/Estamora-Soroban-Layers/estamora-conformance-runner/blob/main/examples/testnet-contract/costs.json) |
 | Soroban testnet contract ID | [`CDB3EKMUGN5E7X2LMO56IB3A55EU4PPUYEF5EBVDKDV3LCLICJNSYKLW`](https://stellar.expert/explorer/testnet/contract/CDB3EKMUGN5E7X2LMO56IB3A55EU4PPUYEF5EBVDKDV3LCLICJNSYKLW) |
 
 ## Contributing
