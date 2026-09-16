@@ -1,0 +1,56 @@
+# CodeRabbit review configuration: organization default.
+#
+# CodeRabbit reads `.coderabbit.yaml` from the root of the repository under review, so each
+# repository in this organization also carries its own file. That is deliberate rather than
+# redundant: a repository that only inherited its configuration would silently change its
+# review behaviour if this file changed, and the language- and stack-specific instructions
+# (Rust ownership rules, schema compatibility, printed-figure accuracy) genuinely differ
+# between the four.
+#
+# This file is the organization's default and the place to put anything that is true
+# everywhere. The two things that are true everywhere are here: the project's conventions
+# for how a change should be argued, and the secret scanning that no repository should be
+# able to switch off by accident.
+language: en-US
+early_access: false
+reviews:
+  profile: assertive
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: false
+  path_filters:
+    - "!**/target/**"
+    - "!**/node_modules/**"
+    - "!**/dist/**"
+    - "!**/coverage/**"
+    - "!**/.vercel/**"
+    - "!**/site/**"
+    - "!**/build/**"
+  path_instructions:
+    - path: "**/*.md"
+      instructions: >-
+        This organization's credibility rests on documentation that is true rather than
+        aspirational. Flag any sentence that states a number, a status, or a capability
+        which is not backed by a committed artefact or a check that verifies it. A claim
+        of "verified", "tested" or "measured" must name how.
+    - path: "**/*"
+      instructions: >-
+        Commits in this organization explain *why* a change is shaped as it is, not what
+        the diff already shows. Prefer a review comment that asks what evidence supports a
+        claim over one that restates the code.
+  tools:
+    # Secret scanning is the one check that must not depend on a per-repository decision.
+    gitleaks:
+      enabled: true
+    actionlint:
+      enabled: true
+    yamllint:
+      enabled: true
+    markdownlint:
+      enabled: true
+chat:
+  auto_reply: true
