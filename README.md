@@ -59,6 +59,56 @@ default for other repositories. A license is per-repository and cannot be inheri
 is why the same text is committed to all five. It is kept byte-identical so that a reader
 comparing two repositories cannot find a difference that is not there.
 
+## How a change reaches production, and what protects `main`
+
+Everything here is deployed by a GitHub Actions job rather than by a Git integration, and that is
+a decision rather than an omission.
+
+| Step | Who does it |
+| --- | --- |
+| Build | CI builds the artefact and runs the repository's checks. The build output is what gets published. |
+| Publish | The deploy job publishes the artefact CI built, with `vercel deploy --prebuilt --prod`. |
+| Verify | That same job then asserts the published result — the published pages, and the pitch as `video/mp4` with byte-range support. |
+| Vercel's Git integration | **Off.** Neither `estamora-docs` nor `estamora-app` is connected to its repository. |
+
+Connecting Vercel's own Git integration would deploy every push before anything had checked it,
+and would deploy the same commit a second time from a build Actions had already made. Two
+deployments per push, one of them unverified, and the alias does not say which landed. Publishing
+the artefact CI built keeps one property worth more than the convenience: **what is deployed is
+what CI checked.** The cost is that a deployment now depends on a workflow — which is why the
+deploy job asserts the result rather than trusting the exit code of a publish command.
+
+### What protects `main`
+
+Every repository protects `main`, with `strict` on, so a pull request must be up to date with the
+branch before it can merge. The counts differ because the repositories do:
+
+| Repository | Required checks | Required approvals |
+| --- | ---: | ---: |
+| `estamora-conformance-runner` | 20 | 0 |
+| `estamora-docs` | 9 | 0 |
+| `estamora-conformance-spec` | 8 | 0 |
+| `estamora-app` | 7 | 0 |
+| `.github` | 0 | 1 |
+
+Nothing verifies the counts above, and that is worth saying in a project whose house rule is that a
+figure with no check behind it goes stale. This repository runs no workflows — it holds nothing to
+run them against — so the table is as current as the last edit to it. Each repository's own
+protection settings remain the authoritative record; the table mirrors them because a reader of the
+organization profile should not have to open five settings pages to find out what protects `main`.
+
+This repository requires a review and no checks because it holds no code for a check to run. The
+four code repositories require no review, which is deliberate for a project with one maintainer: a
+review requirement the only person who can approve must also satisfy adds a step rather than a
+check. What the required checks continue to do is block a merge that is red, and that is the part
+that catches mistakes.
+
+`enforce_admins` is **off** on all five, so an administrator can push past those checks. Worth
+stating rather than leaving as an invisible property of the settings: it means a red `main` is
+possible, GitHub prints the bypass in the push output when it happens, and the alternative —
+enforcing the rules on administrators too — makes every commit a pull request, which for a
+single-maintainer project trades a visible risk for a great deal of ceremony.
+
 ## License
 
 Apache-2.0. [`LICENSE`](LICENSE) here is byte-identical to the copy in each of the four
