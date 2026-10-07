@@ -1,168 +1,55 @@
 <div align="center">
 
-# Estamora Soroban Layers
+# Estamora Payment Protocol
 
-**Behavioural conformance tooling for Soroban smart contracts.**
+**Policy-guarded milestone escrow, dispute arbitration, and spend-cap micro-payments on Stellar (Soroban).**
 
-A contract can expose every method of an interface with the exact expected signature, and
-still lose user funds. Estamora measures what a contract *does*, not what it *looks like*.
-
-[![Specification CI](https://github.com/Estamora-Soroban-Layers/estamora-conformance-spec/actions/workflows/ci.yml/badge.svg)](https://github.com/Estamora-Soroban-Layers/estamora-conformance-spec/actions/workflows/ci.yml)
-[![Runner CI](https://github.com/Estamora-Soroban-Layers/estamora-conformance-runner/actions/workflows/ci.yml/badge.svg)](https://github.com/Estamora-Soroban-Layers/estamora-conformance-runner/actions/workflows/ci.yml)
-[![Docs](https://github.com/Estamora-Soroban-Layers/estamora-docs/actions/workflows/ci.yml/badge.svg)](https://github.com/Estamora-Soroban-Layers/estamora-docs/actions/workflows/ci.yml)
-[![Documentation site](https://img.shields.io/badge/site-estamora--docs.vercel.app-blue)](https://estamora-docs.vercel.app)
+[![Contracts CI](https://github.com/Estamora-Soroban-Layers/estamora-contracts/actions/workflows/ci.yml/badge.svg)](https://github.com/Estamora-Soroban-Layers/estamora-contracts/actions/workflows/ci.yml)
+[![SDK CI](https://github.com/Estamora-Soroban-Layers/estamora-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/Estamora-Soroban-Layers/estamora-sdk/actions/workflows/ci.yml)
+[![App CI](https://github.com/Estamora-Soroban-Layers/estamora-app/actions/workflows/ci.yml/badge.svg)](https://github.com/Estamora-Soroban-Layers/estamora-app/actions/workflows/ci.yml)
+[![Documentation site](https://img.shields.io/badge/docs-estamora--docs.vercel.app-blue)](https://estamora-docs.vercel.app)
 [![Application](https://img.shields.io/badge/app-estamora--app.vercel.app-black?logo=vercel)](https://estamora-app.vercel.app)
-[![Product pitch](https://img.shields.io/badge/watch-5--minute%20pitch-blueviolet)](https://estamora-docs.vercel.app/assets/estamora-pitch.mp4)
-[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/Estamora-Soroban-Layers/.github/blob/main/LICENSE)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 </div>
 
 ---
 
-## Watch the pitch
+## Overview
 
-<a href="https://estamora-docs.vercel.app/assets/estamora-pitch.mp4">
-  <img src="https://raw.githubusercontent.com/Estamora-Soroban-Layers/estamora-docs/main/docs/assets/pitch-thumbnail.png" alt="Watch the five-minute Estamora product pitch" width="700">
-</a>
+**Estamora** brings programmable trustless payments and non-custodial milestone escrow to the Stellar network. Built natively on **Soroban**, the protocol provides:
 
-**[Five minutes, no sign-in.](https://estamora-docs.vercel.app/assets/estamora-pitch.mp4)**
-Every frame of it is a live deployment or output a program actually produced: the real
-free-mint bug this project found in its own contract fixture, a real run of the release
-binary, and the deployed application auditing a real conformance report. The pipeline that
-builds the video is committed, so the figures in it can be corrected rather than argued with.
+1. **Milestone & Time-Locked Escrows**: Buyer funds are locked safely in contract custody and released upon verified delivery, with automatic timeout refunds to buyers if orders expire unfulfilled.
+2. **Dispute Resolution & Fair Splits**: Neutral arbitration mechanism for fair percentage settlements between buyers and sellers.
+3. **Delegated Spend Caps (AI Agent Firewall)**: Account owners grant secondary accounts (AI agents, automated daemons) controlled spending permissions with strict per-transaction and 24-hour rolling window caps.
+4. **Zero-Broadcast Pre-Flight Simulation**: `@estamora/sdk` estimates resource fees and CPU budgets via RPC before requesting wallet signatures.
 
-## The question Estamora answers
+---
 
-> Does this Soroban contract actually behave according to the standard or interface
-> profile it claims to implement?
+## Repositories & Architecture
 
-Not *does it compile*. Not *does it expose the expected methods*. Interface compatibility
-is a **shape** claim. Behavioural conformance is a claim about **what happens**:
+| Repository | Role | Technology | Live Links |
+| :--- | :--- | :--- | :--- |
+| [**`estamora-contracts`**](https://github.com/Estamora-Soroban-Layers/estamora-contracts) | Soroban smart contracts: milestone escrow, dispute split arbitration, and delegated spend limits. | Rust, Soroban SDK v27.0.6 | [Contracts](https://github.com/Estamora-Soroban-Layers/estamora-contracts) |
+| [**`estamora-sdk`**](https://github.com/Estamora-Soroban-Layers/estamora-sdk) | Client SDK, pre-flight simulation engine, transaction builders, and 14 structured error decoders. | TypeScript, `@stellar/stellar-sdk` | [npm package](https://npmjs.com/package/@estamora/sdk) |
+| [**`estamora-app`**](https://github.com/Estamora-Soroban-Layers/estamora-app) | Interactive merchant dashboard, checkout simulator, and Freighter wallet operator console. | React 19, Vite, Tailwind | [Live DApp](https://estamora-app.vercel.app) |
+| [**`estamora-docs`**](https://github.com/Estamora-Soroban-Layers/estamora-docs) | Documentation hub, technical guides, contract references, and architecture maps. | Markdown & Docs | [Live Docs](https://estamora-docs.vercel.app) |
 
-- which principal must authorize which call, and which arguments their authorization must cover;
-- which events must be emitted, with what structure, and what they must correspond to in state;
-- what a failed call must leave behind — including that it must emit nothing;
-- which properties must survive every call, and which are exempt.
+---
 
-A contract that verifies *a* signature is present, without verifying *whose*, passes any
-test that only asks whether the unauthorized call failed. It does fail — for the wrong
-reason. That gap is what Estamora exists to make checkable.
+## Testnet Deployment
 
-## Repositories
+- **Contract ID**: `CADQOBYHA4DQOBYHA4DQOBYHA4DQOBYHA4DQP5KR`
+- **Network**: Soroban Testnet
+- **WASM Size**: `26,247 B (26.2 KB)`
+- **RPC**: `https://soroban-testnet.stellar.org`
 
-| Repository | Language | What it is | Contributors |
-| --- | --- | --- | --- |
-| [`estamora-conformance-spec`](https://github.com/Estamora-Soroban-Layers/estamora-conformance-spec) | TypeScript | **Defines** conformance. Ten normative JSON Schemas, released profile bundles, the shared test-vector library, and the validation tooling that keeps them self-consistent. | [![contributors](https://img.shields.io/github/contributors/Estamora-Soroban-Layers/estamora-conformance-spec)](https://github.com/Estamora-Soroban-Layers/estamora-conformance-spec/graphs/contributors) |
-| [`estamora-conformance-runner`](https://github.com/Estamora-Soroban-Layers/estamora-conformance-runner) | Rust | **Measures** conformance. Executes profiles and vectors against a deployed Soroban contract and produces a deterministic verdict with JSON, Markdown and JUnit reports. | [![contributors](https://img.shields.io/github/contributors/Estamora-Soroban-Layers/estamora-conformance-runner)](https://github.com/Estamora-Soroban-Layers/estamora-conformance-runner/graphs/contributors) |
-| [`estamora-docs`](https://github.com/Estamora-Soroban-Layers/estamora-docs) | Markdown | **Explains** conformance. The documentation site: curated guides and reference pages, assembled by MkDocs together with the canonical document sets at pinned revisions. | [![contributors](https://img.shields.io/github/contributors/Estamora-Soroban-Layers/estamora-docs)](https://github.com/Estamora-Soroban-Layers/estamora-docs/graphs/contributors) |
-| [`estamora-app`](https://github.com/Estamora-Soroban-Layers/estamora-app) | TypeScript | **Shows** conformance. The web application: inspect conformance evidence for live testnet contracts, with the documentation built in. | [![contributors](https://img.shields.io/github/contributors/Estamora-Soroban-Layers/estamora-app)](https://github.com/Estamora-Soroban-Layers/estamora-app/graphs/contributors) |
-| [`.github`](https://github.com/Estamora-Soroban-Layers/.github) | — | Community health files and this organization profile. | [![contributors](https://img.shields.io/github/contributors/Estamora-Soroban-Layers/.github)](https://github.com/Estamora-Soroban-Layers/.github/graphs/contributors) |
+---
 
-## How the layers fit together
+## Community & Drips Wave Sprints
 
-```mermaid
-flowchart LR
-    subgraph SPEC["estamora-conformance-spec"]
-        P[Profiles] --> V[Test vectors]
-        P --> S[JSON Schemas]
-        S --> T[Validation tooling]
-        V --> T
-    end
-    subgraph RUNNER["estamora-conformance-runner"]
-        R[Execution engine] --> C[Conformance report]
-    end
-    C1[Deployed Soroban contract] --> R
-    T -->|validated profiles and vectors| R
-    R -->|results| C
-    C --> APP["estamora-app"]
-    DOCS["estamora-docs"] -.->|documents| SPEC
-    DOCS -.->|documents| RUNNER
-```
+We actively welcome contributors from the **Stellar Community Fund** and **Drips Stellar Wave**.
 
-The separation is deliberate: the specification is a data format, and nothing in it
-depends on the runner. A second implementation in another language is a supported
-outcome, not a rewrite.
-
-## Quickstart
-
-The runner is distributed as source and as release binaries; no crate is published to
-crates.io yet.
-
-```bash
-# `--spec` defaults to the sibling directory, which is why these are cloned beside each
-# other: the runner reads its profiles and vectors from the specification checkout.
-git clone https://github.com/Estamora-Soroban-Layers/estamora-conformance-spec
-git clone https://github.com/Estamora-Soroban-Layers/estamora-conformance-runner
-cd estamora-conformance-runner
-
-cargo build --release --bin estamora
-
-# Measure the contract this project deploys to testnet, against a released profile. The
-# markdown rendering goes to standard output; `--out report.json --format json` writes the
-# normative document a pipeline consumes, and the exit code is the gate.
-./target/release/estamora run \
-    --profile sep-41@1.0 \
-    --contract CDMCJRW5QBTOOOGYDPCJV6N4RKLX44V6XWKNN6ZFAKN6J2F5HQPSNAOV \
-    --network testnet \
-    --format markdown
-```
-
-Exit codes are a tested contract rather than a convention, and the mapping from a status to a
-number is derived in `estamora-core` and asserted by a unit test. What a CI system needs from a
-code is not only what happened but whose fault it is:
-
-| Exit code | Status | Whose fault | What a pipeline should do |
-| --- | --- | --- | --- |
-| `0` | `CONFORMANT` | — | Publish or merge |
-| `1` | `NON_CONFORMANT`, `PARTIALLY_CONFORMANT` | The contract | Fail the gate |
-| `2` | `INCONCLUSIVE` | The run: a vector could not be decided | Fail the gate, and re-run |
-| `3` | `PROFILE_ERROR` | The specification | Fail the build |
-| `4` | `EXECUTION_ERROR` | The environment | Fail or retry |
-| `5` | — | This tool | Report a bug |
-| `64` | — | The command line (`sysexits.h`) | Fix the invocation |
-
-**Only a violated requirement exits `1`.** A network outage, an unbuilt fixture and a malformed
-profile all exit something else, because a runner that reports an outage as a contract failure
-teaches its users to distrust every `1` it produces.
-
-## Live on testnet
-
-| Artifact | Location |
-| --- | --- |
-| Reference set (schemas, profiles, vectors) | <https://estamora-soroban-layers.github.io/estamora-conformance-spec/> |
-| Documentation | <https://estamora-docs.vercel.app> |
-| Application (reads evidence for a live contract) | <https://estamora-app.vercel.app> |
-| Worked conformance measurement against a real deployment | [`examples/testnet-contract/`](https://github.com/Estamora-Soroban-Layers/estamora-conformance-runner/tree/main/examples/testnet-contract) |
-| Measured cost of each call on that deployment | [`costs.json`](https://github.com/Estamora-Soroban-Layers/estamora-conformance-runner/blob/main/examples/testnet-contract/costs.json) |
-| Soroban testnet contract ID | [`CDMCJRW5QBTOOOGYDPCJV6N4RKLX44V6XWKNN6ZFAKN6J2F5HQPSNAOV`](https://stellar.expert/explorer/testnet/contract/CDMCJRW5QBTOOOGYDPCJV6N4RKLX44V6XWKNN6ZFAKN6J2F5HQPSNAOV) |
-
-## Contributing
-
-Every repository carries its own `CONTRIBUTING.md` describing how to build, test and
-validate locally. Issues labelled
-[`good first issue`](https://github.com/search?q=org%3AEstamora-Soroban-Layers+label%3A%22good+first+issue%22&type=issues)
-are scoped to be completable without deep context, and
-[`help wanted`](https://github.com/search?q=org%3AEstamora-Soroban-Layers+label%3A%22help+wanted%22&type=issues)
-marks work that needs the model to be understood first.
-
-Contributions to the **specification** are held to a different standard than code: a
-change that alters what a profile requires is a **version change**, never an edit. See
-[`VERSIONING.md`](https://github.com/Estamora-Soroban-Layers/estamora-conformance-spec/blob/main/VERSIONING.md).
-
-## What Estamora does not do
-
-- **Conformance is not security.** Passing a profile means a contract behaves as the
-  profile defines. A profile that misses a failure mode does not detect it. Estamora does
-  not replace formal verification, a security audit, penetration testing or vulnerability
-  research, and must never be presented as doing so.
-- **A result names a profile version.** `sep-41` is incomplete; `sep-41@1.0` is a claim.
-- **The specification never claims a contract conforms.** It defines requirements. The
-  runner measures, and its report carries the claim.
-
-Report a defect in the specification itself, or a vulnerability anywhere in the stack,
-through the process in [`SECURITY.md`](SECURITY.md). Private vulnerability reporting is
-enabled on every repository.
-
-## License
-
-Apache-2.0, across every repository.
+- 💬 **Telegram**: [Estamora Community](https://t.me/estamora_stellar)
+- 👾 **Discord**: [Estamora Developers](https://discord.gg/estamora-dev)
+- 👤 **Maintainer**: [@winningtalker-commits](https://github.com/winningtalker-commits)
